@@ -1,6 +1,7 @@
 local pairs = pairs
 local print = print
 local tostring = tostring
+local s_format = string.format
 
 module "src.cli_root"
 
@@ -23,6 +24,16 @@ function info(backend)
   print( "Backend: "..backend._name )
   print( "Backend address: "..(backend.address or "nil") )
   print( "Backend connected: "..tostring(backend.handle) )
+  if not backend.handle then return end
+  print( "Backend version: " )
+  print( backend.version() )
+  print( "*----------*" )
+  print( "Pinstates:" )
+  for p = 0,12 do
+    -- FIXME: cannot determine if a pin is in INPUT/OUTPUT/... mode?
+    local st = backend.handle.gpio.read(p)
+    print( s_format("%2d.%-6s: %d",p, backend._gpio_names[p], st ) )
+  end
 end
 
 function connect(backend)
