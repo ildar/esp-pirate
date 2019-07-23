@@ -12,12 +12,18 @@ local current_cli = cli_root
 RL.set_complete_list(current_cli._reserved_words)
 
 -- prepare
-backend = backend_nodemcu
+app_context = {
+  backend = backend_nodemcu,
+  switch_menu = function(name)
+    -- current_cli <- name ?
+    RL.set_complete_list(current_cli._reserved_words)
+  end,
+}
 
 while true do
   cmd = RL.readline(current_cli._prompt)
   if not cmd or cmd == "quit" then break end
-  current_cli[cmd](backend)
+  current_cli[cmd](app_context)
 end
 
 RL.save_history()

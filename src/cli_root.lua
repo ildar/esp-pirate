@@ -18,26 +18,27 @@ function help()
   print( cli_common_help )
 end
 
-function info(backend)
+function info(context)
   print( [[ESP pirate v0.1]] )
   print( [[https://github.com/ildar/esp-pirate/]] )
-  print( "Backend: "..backend._name )
-  print( "Backend address: "..(backend.address or "nil") )
-  print( "Backend connected: "..tostring(backend.handle) )
-  if not backend.handle then return end
-  print( "Backend version: " )
-  print( backend.version() )
-  print( "*----------*" )
-  print( "Pinstates:" )
-  for p = 0,12 do
-    -- FIXME: cannot determine if a pin is in INPUT/OUTPUT/... mode?
-    local st = backend.handle.gpio.read(p)
-    print( s_format("%2d.%-6s: %d",p, backend._gpio_names[p], st ) )
+  print( "Backend: "..context.backend._name )
+  print( "Backend address: "..(context.backend.address or "nil") )
+  print( "Backend connected: "..tostring(context.backend.handle) )
+  if context.backend.handle then
+    print( "Backend version: " )
+    print( context.backend.version() )
+    print( "*----------*" )
+    print( "Pinstates:" )
+    for p = 0,12 do
+      -- FIXME: cannot determine if a pin is in INPUT/OUTPUT/... mode?
+      local st = context.backend.handle.gpio.read(p)
+      print( s_format("%2d.%-6s: %d",p, context.backend._gpio_names[p], st ) )
+    end
   end
 end
 
-function connect(backend)
-  return backend.connect()
+function connect(context)
+  return context.backend.connect()
 end
 
 -- init code
