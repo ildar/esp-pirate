@@ -37,13 +37,17 @@ function info(context)
   end
 end
 
+function change_mode(context)
+  context.switch_menu("mode")
+end
+
 function connect(context)
   return context.backend.connect()
 end
 
 -- init code
 reserved_words = {
-  "i", "connect",
+  "i", "m", "connect",
 }
 for _,v in pairs(cli_common_reserved_words) do
   reserved_words[#reserved_words + 1] = v
@@ -58,5 +62,6 @@ return {
   _prompt = "HiZ> ",
   ["help"] = help, ["?"] = help,
   ["i"] = info,
+  ["m"] = change_mode,
   ["connect"] = connect,
 }

@@ -4,8 +4,8 @@ local RL = require 'readline'
 local backend_nodemcu = require "src.backend_nodemcu"
 local menus = {
   root = require "src.cli_root",
+  mode = require "src.cli_mode",
 }
-
 
 -- TODO: maybe ignoredups=true
 RL.set_options{ keeplines=1000, histfile='rl_history' }
