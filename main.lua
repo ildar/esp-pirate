@@ -26,7 +26,11 @@ app_context.switch_menu("root")
 while true do
   cmd = RL.readline(current_cli._prompt)
   if not cmd or cmd == "quit" then break end
-  current_cli[cmd](app_context)
+  if type(current_cli[cmd]) == "function" then
+    current_cli[cmd](app_context)
+  else
+    print( "wrong command" )
+  end
 end
 
 RL.save_history()
