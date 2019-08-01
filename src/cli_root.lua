@@ -45,9 +45,15 @@ function connect(context)
   return context.backend.connect()
 end
 
+function adc_measure(context)
+  -- FIXME: assert is_online
+  -- FIXME: check the mode (ADC/VDD33)
+  print( "ADC: " .. context.backend.handle.adc.read(0) .. " mV" )
+end
+
 -- init code
 reserved_words = {
-  "i", "m", "connect",
+  "d", "i", "m", "connect",
 }
 for _,v in pairs(cli_common_reserved_words) do
   reserved_words[#reserved_words + 1] = v
@@ -61,6 +67,7 @@ return {
   _reserved_words = reserved_words,
   _prompt = "HiZ> ",
   ["help"] = help, ["?"] = help,
+  ["d"] = adc_measure,
   ["i"] = info,
   ["m"] = change_mode,
   ["connect"] = connect,
