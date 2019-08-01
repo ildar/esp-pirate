@@ -24,7 +24,7 @@ function info(context)
   print( "Backend: "..context.backend._name )
   print( "Backend address: "..(context.backend.address or "nil") )
   print( "Backend connected: "..tostring(context.backend.handle) )
-  if context.backend.handle then
+  if context.backend.is_online() then
     print( "Backend version: " )
     print( context.backend.version() )
     print( "*----------*" )

@@ -12,17 +12,22 @@ local config = {
 }
 
 function config.connect()
-  -- FIXME close slave connection
+  -- FIXME close existing connection
   config.handle = tango.client["socket"].connect(config)
+end
+
+function config.is_online()
+  -- FIXME: is network connection ok?
+  return config.handle ~= nil
 end
 
 function config.version()
   local out = ""
   local majorVer, minorVer, devVer, chipid, flashid, flashsize, flashmode, flashspeed =
     config.handle.node.info()
-  out = out .. "Version: " .. majorVer .. "." .. minorVer .. "." .. devVer .. "\n"
-  out = out .. "Chip id: " .. chipid .. "\n"
-  out = out .. "Flash id: " .. flashid .. ", size: " .. flashsize .. 
+  out = out .. "  Version: " .. majorVer .. "." .. minorVer .. "." .. devVer .. "\n"
+  out = out .. "  Chip id: " .. chipid .. "\n"
+  out = out .. "  Flash id: " .. flashid .. ", size: " .. flashsize .. 
     ", mode:" .. flashmode .. ", speed: " .. flashspeed .. "\n"
   out = out .. "Free heap: " .. config.handle.node.heap()
   return out
